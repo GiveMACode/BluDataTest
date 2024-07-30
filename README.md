@@ -44,3 +44,7 @@ Questões tecnológicas/frameworks, ficam a sua escolha (sugerimos você utiliza
 
 Obrigado.
 Bludata Software.
+
+----------------------------------------
+
+Olá Devs, Vou iniciar esse projeto, com os requisitos iniciais e implementar outras funcionalidades, conforme for evoluindo o projeto.
