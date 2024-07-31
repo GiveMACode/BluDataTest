@@ -1,5 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Models.FornecedorModel;
+using Backend.Audit;
+using Backend.Audit.FornecedorAudit;
 
 namespace Backend.Services;
 
@@ -31,5 +33,20 @@ public class FornecedorService
         return true;
     }
 
+    public async Task AuditarFornecedor(FornecedorModel fornecedor, string acao, string usuario)
+        {
+        
+
+            var audit = new FornecedorAudit
+            {
+                FornecedorId = fornecedor.Id,
+                Ação = acao,
+                DataHora = DateTime.UtcNow,
+                Usuario = usuario
+            };
+
+            _context.FornecedoresAudits.Add(audit);
+            await _context.SaveChangesAsync();
+        }
 
 }

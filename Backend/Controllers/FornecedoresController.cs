@@ -192,6 +192,36 @@ public async Task<IActionResult> PutFornecedor(int id, FornecedorDto fornecedorD
     return NoContent();
 }
 
+// Exemplo no método POST
+    /// <summary>
+/// Creates a new Fornecedor in the database.
+/// </summary>
+/// <param name="fornecedorDto">The Fornecedor data to be created. This should be a valid FornecedorDto object.</param>
+/// <returns>
+/// An ActionResult containing the created FornecedorDto object if the operation is successful.
+/// If the Fornecedor data does not meet the validation criteria, returns a BadRequest with an appropriate error message.
+/// If the Fornecedor is successfully created, returns a CreatedAtAction result with the URI of the newly created Fornecedor.
+/// </returns>
+[HttpPost("Fornecedores/Auditado")]
+public async Task<ActionResult<FornecedorDto>> PostFornecedorAuditado(FornecedorDto fornecedorDto)
+{
+    var fornecedor = _mapper.Map<FornecedorModel>(fornecedorDto);
+
+    if (!await _fornecedorService.ValidarFornecedor(fornecedor))
+    {
+        return BadRequest("Fornecedor não atende aos critérios de validação.");
+    }
+
+    fornecedor.DataHoraCadastro = DateTime.UtcNow;
+    _context.Fornecedores.Add(fornecedor);
+    await _context.SaveChangesAsync();
+
+    // Auditar criação de fornecedor
+    await _fornecedorService.AuditarFornecedor(fornecedor, "Criação", "usuário_atual");
+
+    return CreatedAtAction(nameof(GetFornecedor), new { id = fornecedor.Id }, _mapper.Map<FornecedorDto>(fornecedor));
+}
+
 }
     
 

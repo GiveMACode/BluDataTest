@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240730184648_InitialCreate")]
+    [Migration("20240731015210_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,6 +19,31 @@ namespace Backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.7");
+
+            modelBuilder.Entity("Backend.Audit.FornecedorAudit.FornecedorAudit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Ação")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DataHora")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FornecedorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Usuario")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FornecedorId");
+
+                    b.ToTable("FornecedoresAudits");
+                });
 
             modelBuilder.Entity("Backend.Models.EmpresaModel.EmpresaModel", b =>
                 {
@@ -55,6 +80,10 @@ namespace Backend.Migrations
                     b.Property<DateTime?>("DataNascimento")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("EmpresaId")
                         .HasColumnType("INTEGER");
 
@@ -70,6 +99,26 @@ namespace Backend.Migrations
                     b.HasIndex("EmpresaId");
 
                     b.ToTable("Fornecedores");
+                });
+
+            modelBuilder.Entity("Backend.Models.ProdutoModel.ProdutoModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Produtos");
                 });
 
             modelBuilder.Entity("Backend.Models.TelefoneModel.TelefoneModel", b =>
@@ -89,6 +138,32 @@ namespace Backend.Migrations
                     b.HasIndex("FornecedorId");
 
                     b.ToTable("Telefones");
+                });
+
+            modelBuilder.Entity("FornecedorModelProdutoModel", b =>
+                {
+                    b.Property<int>("FornecedoresId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProdutosId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FornecedoresId", "ProdutosId");
+
+                    b.HasIndex("ProdutosId");
+
+                    b.ToTable("FornecedorModelProdutoModel");
+                });
+
+            modelBuilder.Entity("Backend.Audit.FornecedorAudit.FornecedorAudit", b =>
+                {
+                    b.HasOne("Backend.Models.FornecedorModel.FornecedorModel", "Fornecedor")
+                        .WithMany()
+                        .HasForeignKey("FornecedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Fornecedor");
                 });
 
             modelBuilder.Entity("Backend.Models.FornecedorModel.FornecedorModel", b =>
@@ -111,6 +186,21 @@ namespace Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Fornecedor");
+                });
+
+            modelBuilder.Entity("FornecedorModelProdutoModel", b =>
+                {
+                    b.HasOne("Backend.Models.FornecedorModel.FornecedorModel", null)
+                        .WithMany()
+                        .HasForeignKey("FornecedoresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Models.ProdutoModel.ProdutoModel", null)
+                        .WithMany()
+                        .HasForeignKey("ProdutosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Backend.Models.EmpresaModel.EmpresaModel", b =>

@@ -9,4 +9,5 @@ public class FornecedorDto
     public DateTime? DataHoraCadastro { get; set; }
     public string? RG { get; set; }
     public DateTime? DataNascimento { get; set; }
-}
+     public string Email { get; set; }
+    }

@@ -10,8 +10,10 @@ public class MappingProfile : Profile
 {
 public MappingProfile()
     {
+        CreateMap<FornecedorModel, FornecedorDto>().ReverseMap();
         CreateMap<EmpresaModel, EmpresaDto>();
         CreateMap<FornecedorModel, FornecedorDto>();
         CreateMap<TelefoneModel, TelefoneDto>();
+    
     }
 }

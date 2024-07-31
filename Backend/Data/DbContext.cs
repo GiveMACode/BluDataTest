@@ -1,4 +1,7 @@
 ﻿namespace Backend.Data;
+
+using Backend.Audit.FornecedorAudit;
+using Backend.Models.ProdutoModel;
 using Microsoft.EntityFrameworkCore;
 using Models.EmpresaModel;
 using Models.FornecedorModel;
@@ -11,9 +14,14 @@ public class ApplicationDbContext : DbContext
     public DbSet<EmpresaModel> Empresas { get; set; }
     public DbSet<FornecedorModel> Fornecedores { get; set; }
     public DbSet<TelefoneModel> Telefones { get; set; }
+    public DbSet<FornecedorAudit> FornecedoresAudits { get; set; }
+    public DbSet<ProdutoModel> Produtos { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<EmpresaModel>()
             .HasMany(e => e.Fornecedores)
             .WithOne(f => f.Empresa)
@@ -23,5 +31,9 @@ public class ApplicationDbContext : DbContext
             .HasMany(f => f.Telefones)
             .WithOne(t => t.Fornecedor)
             .HasForeignKey(t => t.FornecedorId);
+
+        modelBuilder.Entity<FornecedorModel >()
+            .HasMany(fa => fa.Produtos)
+            .WithMany(fa => fa.Fornecedores);
     }
 }
