@@ -48,3 +48,15 @@ Bludata Software.
 ----------------------------------------
 
 Olá Devs, Vou iniciar esse projeto, com os requisitos iniciais e implementar outras funcionalidades, conforme for evoluindo o projeto.
+
+Novas Funcionalidades
+1. Auditoria de Modificações
+Adicionar um histórico de modificações para fornecedores.
+Registrar data e hora de modificações, usuário que realizou a alteração, etc.
+2. Relacionamento com Produtos
+Associar fornecedores com produtos que eles fornecem.
+Adicionar CRUD para produtos.
+3. Relatórios e Exportação
+Gerar relatórios de fornecedores e exportar dados para CSV ou PDF.
+4. Notificações
+Notificar administradores ou usuários quando novos fornecedores são cadastrados.
