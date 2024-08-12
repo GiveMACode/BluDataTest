@@ -1,6 +1,6 @@
 # BluDataTest
 Avaliação de Conhecimentos – Programador C#
-
+(projeto sem imagem, full backend e dados)
 Enunciado do teste:
 
 Criar uma listagem de fornecedores relacionado a uma empresa;
